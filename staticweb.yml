@@ -1,0 +1,33 @@
+- hosts: web
+  tasks:
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: latest
+    - name: Httpd service running
+      systemd:
+        name: httpd
+        state: started   
+    - name: Enable service httpd
+      systemd:
+        name: httpd
+        enabled: yes
+        masked: no
+    - name: unzip install
+      yum: 
+        name: unzip
+        state: latest
+    - name: Download CStmplate
+      get_url:
+        url: https://www.free-css.com/assets/files/free-css-templates/download/page253/wetwest.zip
+        dest: /var/www/html/
+    - name: unzip file 
+      unarchive:
+        src: /var/www/html/wetwest.zip
+        dest: /var/www/html/
+        remote_src: yes
+    - name: move files
+      shell: mv /var/www/html/wetwest/* /var/www/html/
+
+ 
+
